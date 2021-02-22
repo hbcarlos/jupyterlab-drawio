@@ -63,6 +63,15 @@ export class DrawioWidget extends DocumentWidget<Widget> {
     super({ ...options });
     this.context = options['context'];
     void Private.ensureMx().then(mx => this.onMxLoaded(mx));
+    //this.context.ydoc.getMap('drawioModel')
+    /* 
+    context.ydoc = new Y.Doc({ guid: context.path });
+    context.ycontext = context.ydoc.getMap('context');
+    console.debug("new ydoc", context.ycontext);
+
+    context.ready.then(value => context.ycontext.set(context.path, context.model.toString()));
+    context.ycontext.observe(e => context.ydataChanged.emit(context.ydata));
+    */
   }
 
   protected async onMxLoaded(mx: Private.MX) {
@@ -152,9 +161,11 @@ export class DrawioWidget extends DocumentWidget<Widget> {
     if (this._editor === undefined) {
       return;
     }
-
+    debugger;
     const oldValue = mx.mxUtils.getXml(this._editor.editor.getGraphXml());
     const newValue = this.context.model.toString();
+    console.debug("content: ", newValue);
+    debugger;
 
     if (oldValue !== newValue && !this._editor.editor.graph.isEditing()) {
       if (newValue.length) {
